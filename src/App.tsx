@@ -64,6 +64,17 @@ export function App() {
     setProducts(validateResponse.data.productChanges);
   }
 
+  async function handleUpdate() {
+    const response = await api.post('/update', { products });
+
+    if (response.status === 200) alert('Atualizado com sucesso!');
+    else alert('Houve um erro ao atualizar.');
+
+    (fileInputRef.current as any).value = '';
+    setFile(null);
+    setProducts(null);
+  }
+
   return (
     <div className="h-screen w-screen px-12 py-6 flex flex-col text-shopperBlack">
       <div>
@@ -79,6 +90,17 @@ export function App() {
           </button>
         </div>
       </form>
+
+      <div className="flex justify-center items-center gap-6">
+        <button
+          type="button"
+          disabled={!!validationError || !products}
+          onClick={handleUpdate}
+          className="font-bold text-xl bg-shopperGreen py-3 px-6 mt-9 rounded-lg hover:bg-shopperLightGreen disabled:bg-gray-400 disabled:text-gray-600"
+        >
+          Atualizar
+        </button>
+      </div>
 
       <div className="mt-12 px-20">
         <div className="border-2 border-shopperBlack rounded-lg">
